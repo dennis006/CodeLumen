@@ -160,7 +160,7 @@ export default function App() {
 
 function AuroraBackdrop({ reduceMotion }: { reduceMotion: boolean }) {
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden">
+    <div className="fixed inset-0 z-0 overflow-hidden">
       <div className="absolute inset-0 bg-aurora opacity-70 blur-3xl" aria-hidden />
       {!reduceMotion ? (
         <LiquidEther
