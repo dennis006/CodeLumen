@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import "./LiquidEther.css"
 
 export interface LiquidEtherProps {
@@ -30,6 +30,67 @@ function getThreeGlobal() {
   return (window as any).THREE ?? null
 }
 
+let threeLoadPromise: Promise<any> | null = null
+
+function ensureThreeLoaded() {
+  if (typeof window === "undefined") {
+    return Promise.reject(new Error("Three.js cannot load on the server."))
+  }
+
+  const existing = getThreeGlobal()
+  if (existing) {
+    return Promise.resolve(existing)
+  }
+
+  if (!threeLoadPromise) {
+    threeLoadPromise = new Promise((resolve, reject) => {
+      let scriptElement: HTMLScriptElement | null = null
+
+      const onLoad = () => {
+        if (scriptElement) {
+          scriptElement.setAttribute("data-three-loaded", "true")
+        }
+        const three = getThreeGlobal()
+        if (three) {
+          resolve(three)
+        } else {
+          reject(new Error("Three.js loaded without exposing a global."))
+        }
+      }
+
+      const onError = () => reject(new Error("Three.js failed to load."))
+
+      const existingScript = document.querySelector<HTMLScriptElement>(
+        'script[src*="three"]'
+      )
+
+      if (existingScript) {
+        scriptElement = existingScript
+        if (
+          existingScript.getAttribute("data-three-loaded") === "true" ||
+          existingScript.readyState === "complete"
+        ) {
+          onLoad()
+        } else {
+          existingScript.addEventListener("load", onLoad, { once: true })
+          existingScript.addEventListener("error", onError, { once: true })
+        }
+      } else {
+        const script = document.createElement("script")
+        script.src = "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"
+        script.async = true
+        script.crossOrigin = "anonymous"
+        scriptElement = script
+        script.addEventListener("load", onLoad, { once: true })
+        script.addEventListener("error", onError, { once: true })
+        document.head.appendChild(script)
+      }
+    })
+  }
+
+  return threeLoadPromise
+}
+
 export default function LiquidEther({
   mouseForce = 20,
   cursorSize = 100,
@@ -58,13 +119,36 @@ export default function LiquidEther({
   const intersectionObserverRef = useRef<IntersectionObserver | null>(null)
   const isVisibleRef = useRef(true)
   const resizeRafRef = useRef<number | null>(null)
+  const [isThreeReady, setIsThreeReady] = useState(() => Boolean(getThreeGlobal()))
 
   useEffect(() => {
-    if (!mountRef.current) return
+    let mounted = true
+
+    if (isThreeReady) {
+      return
+    }
+
+    ensureThreeLoaded()
+      .then(() => {
+        if (mounted) {
+          setIsThreeReady(true)
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+
+    return () => {
+      mounted = false
+    }
+  }, [isThreeReady])
+
+  useEffect(() => {
+    if (!mountRef.current || !isThreeReady) return
 
     const THREE = getThreeGlobal()
     if (!THREE) {
-      console.error("Three.js failed to load. Ensure the global script is available.")
+      console.error("Three.js is not available on window despite being marked ready.")
       return
     }
 
