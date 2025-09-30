@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/accordion"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
+import LiquidEther from "@/components/LiquidEther"
 
 function usePrefersReducedMotion() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
@@ -158,11 +159,36 @@ export default function App() {
 
 function AuroraBackdrop({ reduceMotion }: { reduceMotion: boolean }) {
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div className={cn("absolute inset-0 bg-aurora", !reduceMotion && "motion-safe:animate-glow")} aria-hidden />
+    <div className="fixed inset-0 -z-10 overflow-hidden">
+      {!reduceMotion ? (
+        <LiquidEther
+          className="pointer-events-none"
+          style={{ width: "100%", height: "100%", position: "absolute", inset: 0 }}
+          colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
+          mouseForce={20}
+          cursorSize={100}
+          isViscous={false}
+          viscous={30}
+          iterationsViscous={32}
+          iterationsPoisson={32}
+          resolution={0.5}
+          isBounce={false}
+          autoDemo
+          autoSpeed={0.5}
+          autoIntensity={2.2}
+          takeoverDuration={0.25}
+          autoResumeDelay={3000}
+          autoRampDuration={0.6}
+        />
+      ) : (
+        <div className="absolute inset-0 bg-aurora" aria-hidden />
+      )}
       <div
         aria-hidden
-        className="absolute inset-0 opacity-[0.08]"
+        className={cn(
+          "absolute inset-0 opacity-[0.08]",
+          !reduceMotion && "motion-safe:animate-glow",
+        )}
         style={{
           backgroundImage:
             "linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)",
