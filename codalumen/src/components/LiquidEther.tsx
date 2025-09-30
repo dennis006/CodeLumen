@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react"
-import * as THREE from "three"
 import "./LiquidEther.css"
 
 export interface LiquidEtherProps {
@@ -22,6 +21,13 @@ export interface LiquidEtherProps {
   takeoverDuration?: number
   autoResumeDelay?: number
   autoRampDuration?: number
+}
+
+function getThreeGlobal() {
+  if (typeof window === "undefined") {
+    return null
+  }
+  return (window as any).THREE ?? null
 }
 
 export default function LiquidEther({
@@ -55,6 +61,12 @@ export default function LiquidEther({
 
   useEffect(() => {
     if (!mountRef.current) return
+
+    const THREE = getThreeGlobal()
+    if (!THREE) {
+      console.error("Three.js failed to load. Ensure the global script is available.")
+      return
+    }
 
     function makePaletteTexture(stops: string[]) {
       let arr: string[]
