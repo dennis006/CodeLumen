@@ -165,7 +165,7 @@ function AuroraBackdrop({ reduceMotion }: { reduceMotion: boolean }) {
       {!reduceMotion ? (
         <LiquidEther
           className="pointer-events-none absolute inset-0"
-          style={{ width: "100%", height: "100%" }}
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
           colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
           mouseForce={20}
           cursorSize={100}
