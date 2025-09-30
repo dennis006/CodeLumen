@@ -6,7 +6,10 @@
   touch-action: none;
 }
 
-.liquid-ether-container.absolute,
-.liquid-ether-container.fixed {
+.liquid-ether-container.absolute {
   position: absolute;
+}
+
+.liquid-ether-container.fixed {
+  position: fixed;
 }
