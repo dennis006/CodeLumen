@@ -164,8 +164,8 @@ function AuroraBackdrop({ reduceMotion }: { reduceMotion: boolean }) {
       <div className="absolute inset-0 bg-aurora opacity-70 blur-3xl" aria-hidden />
       {!reduceMotion ? (
         <LiquidEther
-          className="pointer-events-none absolute inset-0"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+          className="pointer-events-none fixed inset-0"
+          style={{ width: "100%", height: "100%" }}
           colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
           mouseForce={20}
           cursorSize={100}
