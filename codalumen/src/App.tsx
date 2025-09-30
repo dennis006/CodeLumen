@@ -165,7 +165,13 @@ function AuroraBackdrop({ reduceMotion }: { reduceMotion: boolean }) {
       {!reduceMotion ? (
         <LiquidEther
           className="pointer-events-none fixed inset-0"
-          style={{ width: "100%", height: "100%" }}
+          style={{
+            position: "fixed",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            pointerEvents: "none",
+          }}
           colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
           mouseForce={20}
           cursorSize={100}
@@ -238,7 +244,7 @@ function InteractiveLiquidSection({ prefersReducedMotion }: { prefersReducedMoti
         {!prefersReducedMotion ? (
           <LiquidEther
             className="absolute inset-0"
-            style={{ width: "100%", height: "100%" }}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
             colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
             mouseForce={20}
             cursorSize={120}
