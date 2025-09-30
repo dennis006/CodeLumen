@@ -145,6 +145,7 @@ export default function App() {
         <HeroSection prefersReducedMotion={prefersReducedMotion} />
       </header>
       <main className="relative z-10 space-y-24 pb-24">
+        <InteractiveLiquidSection prefersReducedMotion={prefersReducedMotion} />
         <HowItWorks />
         <LiveDemo prefersReducedMotion={prefersReducedMotion} />
         <Curriculum prefersReducedMotion={prefersReducedMotion} />
@@ -227,6 +228,61 @@ function Navigation() {
         </Button>
       </div>
     </nav>
+  )
+}
+
+function InteractiveLiquidSection({ prefersReducedMotion }: { prefersReducedMotion: boolean }) {
+  return (
+    <section className="relative w-full">
+      <div className="relative mx-auto h-[600px] w-full max-w-7xl overflow-hidden rounded-[40px] border border-white/10">
+        {!prefersReducedMotion ? (
+          <LiquidEther
+            className="absolute inset-0"
+            style={{ width: "100%", height: "100%" }}
+            colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
+            mouseForce={20}
+            cursorSize={120}
+            isViscous
+            viscous={28}
+            iterationsViscous={32}
+            iterationsPoisson={32}
+            resolution={0.6}
+            isBounce={false}
+            autoDemo
+            autoSpeed={0.65}
+            autoIntensity={2.4}
+            takeoverDuration={0.35}
+            autoResumeDelay={3500}
+            autoRampDuration={0.75}
+          />
+        ) : (
+          <div className="absolute inset-0 bg-aurora" aria-hidden />
+        )}
+
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/20 via-slate-950/10 to-slate-950/70" />
+
+        <div className="relative z-10 flex h-full flex-col items-center justify-center gap-6 px-6 text-center">
+          <Badge variant="outline" className="aurora-border inline-flex bg-slate-900/40 text-white/80">
+            Interaktive Atmosphäre
+          </Badge>
+          <h2 className="max-w-3xl font-display text-3xl leading-tight md:text-5xl">
+            Eintauchen, staunen und mit dem Flow lernen.
+          </h2>
+          <p className="max-w-2xl text-base text-white/80 md:text-lg">
+            Die LiquidEther-Fläche reagiert dynamisch auf Mausbewegungen oder läuft automatisch in einer sanften Demo.
+            Verwende sie als immersiven Hintergrund für deinen Hero-Bereich oder wichtige Call-to-Actions.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Button size="lg" className="magnet aurora-border rounded-xl">
+              Live Hintergrund aktivieren
+            </Button>
+            <Button size="lg" variant="secondary" className="bg-white/10">
+              Einstellungen ansehen
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }
 
