@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-slate-950 text-white;
+}
+
+* {
+  @apply focus-visible:outline-none;
+}
+
+:focus-visible {
+  outline: 2px solid theme("colors.brand.400");
+  outline-offset: 2px;
+}
+
+.glass {
+  @apply bg-white/5 backdrop-blur-xl border border-white/10;
+}
+
+.aurora-border {
+  position: relative;
+}
+
+.aurora-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: conic-gradient(from 180deg, #60a5fa, #22d3ee, #f472b6, #60a5fa);
+  filter: blur(6px);
+  opacity: 0.6;
+  z-index: -1;
+}
+
+.magnet {
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+}
+
+.motion-reduce\:transition-none {
+  transition: none !important;
+}

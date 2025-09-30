@@ -1,0 +1,11 @@
+node_modules
+.DS_Store
+dist
+.vscode
+.idea
+.env
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
