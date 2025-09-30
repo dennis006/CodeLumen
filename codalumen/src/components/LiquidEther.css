@@ -5,3 +5,8 @@
   height: 100%;
   touch-action: none;
 }
+
+.liquid-ether-container.absolute,
+.liquid-ether-container.fixed {
+  position: absolute;
+}
