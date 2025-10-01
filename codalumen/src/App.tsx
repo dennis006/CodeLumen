@@ -194,17 +194,9 @@ function AuroraBackdrop({ reduceMotion }: { reduceMotion: boolean }) {
       <div
         aria-hidden
         className={cn(
-          "absolute inset-0 opacity-[0.08]",
+          "absolute inset-0 bg-slate-950/80",
           !reduceMotion && "motion-safe:animate-glow",
         )}
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)",
-          backgroundSize: "40px 40px",
-          transform:
-            "perspective(1000px) rotateX(45deg) translateY(calc(var(--scrollY,0)*0.2px))",
-          transformOrigin: "center top",
-        }}
       />
     </div>
   )
